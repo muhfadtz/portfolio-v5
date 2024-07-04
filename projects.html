@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="assets/revam.png">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <style>
+      body {
+        margin: 0;
+        font-family: "Fredoka", sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      .navbar {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #fff;
+        padding: 10px;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
+      .navbar-brand {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #000;
+      }
+
+      .navbar-icons {
+        display: flex;
+      }
+
+      .navbar-icon {
+        margin-right: 15px;
+        cursor: pointer;
+        color: #000;
+      }
+
+      .sidebar {
+        position: fixed;
+        top: 0;
+        right: -220px;
+        width: 220px;
+        height: 100%;
+        background-color: #fff;
+        padding-top: 50px;
+        transition: 0.3s;
+        color: #000;
+        z-index: 1000;
+        font-weight: bold;
+        transition: ease-in-out 0.2s;
+      }
+
+      .sidebar a {
+        padding: 12px;
+        text-decoration: none;
+        color: #000;
+        display: block;
+        transition: 0.2s;
+        font-weight: bold;
+        margin: 0 10px;
+        border-radius: 10px;
+      }
+
+      .sidebar a:hover {
+        background-color: #e5e7eb;
+        margin: 0 10px;
+        border-radius: 10px;
+      }
+
+      .join:hover {
+        background-color: #e5e7eb;
+        margin: 10px;
+        border-radius: 10px;
+        color: #000;
+      }
+
+      .dark-mode {
+        background-color: #1a1a1a;
+        color: #fff;
+      }
+
+      .dark-mode .navbar {
+        background-color: #1a1a1a;
+        border-bottom: 1px solid #2c2c2c;
+        color: #fff; /* Perubahan warna teks navbar pada dark mode */
+      }
+
+      .dark-mode .sidebar {
+        background-color: #1a1a1a;
+        color: #fff;
+      }
+
+      .dark-mode a {
+        color: #fff;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+        display: none;
+      }
+
+      .login-container {
+        max-width: 500px;
+        margin: auto;
+        text-align: center;
+        padding: 30px;
+        margin-top: 20px;
+        border-radius: 15px;
+      }
+
+      .illustration-img {
+        max-width: 80%;
+        height: auto;
+      }
+
+      .dark-mode .card {
+          background-color: #fff !important;
+          color: #1a1a1a !important;
+      }
+
+      .dark-mode .card h3,
+      .dark-mode .card span,
+      .dark-mode .card a {
+          color: #1a1a1a !important;
+      }
+
+      .projects-card {
+        background-color: #FFF2DB; 
+        border: 1px solid #1a1a1a;
+        border-radius: 20px;
+      }
+
+      .projects-card .details {
+            display: none;
+        }
+      
+      .icon-tech {
+        border: 2px solid #1a1a1a;
+        padding: 100%;
+        border-radius: 50%;
+      }
+
+      .icon-tech:hover {
+        transform: scale(1.2);
+      }
+
+      .carousel-container {
+            overflow-x: scroll; /* Menggunakan 'auto' agar scrollbar muncul hanya jika diperlukan */
+            white-space: nowrap;
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: transparent transparent; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+
+        .carousel {
+            display: inline-block;
+            padding: 20px;
+            animation: scroll 20s linear infinite;
+        }
+
+        .carousel-icon {
+            font-size: 2em;
+            margin: 10px 50px; /* Tambahkan margin di sini */
+            opacity: 20%;
+        }
+
+        /* Memberikan efek hover pada ikon */
+        .carousel-icon:hover {
+            opacity: 1;
+        }
+
+        .custom-hr {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .custom-hr::before,
+        .custom-hr::after {
+            content: '';
+            flex: 1;
+            border-bottom: 2px solid #ccc;
+        }
+        .custom-hr::before {
+            margin-right: 10px;
+        }
+        .custom-hr::after {
+            margin-left: 10px;
+        }
+        .custom-hr span {
+            padding: 0 10px;
+            background: #fff; /* Sesuaikan dengan warna latar belakang halaman */
+            color: #333; /* Warna teks */
+        }
+    </style>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <title>Narwhal</title>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="navbar-icon ms-3" id="user"><a href="#" style="text-decoration: none;"><i class="fa-regular fa-user fs-3" style="color: #000;"></i></a></div>
+      <div class="navbar-brand"><img src="assets/revam.png" alt="Logo" style="width: 35px;"></div>
+      <div class="navbar-icons">
+        <div class="navbar-icon" id="hamburger">
+          <a href="index.html"><i class="fa-solid fa-house" style="text-decoration: none; color: #000;"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row justify-content-center text-center mt-1">
+        <div class="col-md-12 mb-3 p-3">
+            <div class="row mb-5" id="projects">
+              <div class="col-md-12">
+                <div class="row mb-4 mt-5">
+                  <div class="col-md-12">
+                    <h3>All Projects.</h3>
+                    <p style="font-size: small;">Click the card for more details.</p>
+                  </div>
+                </div>
+                <div class="row justify-content-center p-3">
+                    <div class="col-md-3 col-6 mb-3">
+                      <div class="card" style="border-color: #1a1a1a;">
+                        <img class="card-img-top" src="assets/quell.png" alt="Image">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-7 text-start">
+                              <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                                <img src="assets/laravel.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/python.png" class="card-img-top" alt="..." style="max-width: 20px;"> ...
+                            </div>
+                            <div class="col-5 text-end p-1">
+                              <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#NewSatu">
+                                Details
+                              </button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <!-- Modal 1 -->
+                      <div class="modal fade" id="NewSatu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Quell</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start m-3">
+                              <h4>Quell <span class="badge rounded-pill text-bg-danger">Fullstack</span></h4><br>
+                              Quell is a platform to help prospective laptop buyers. This platform was created using machine learning.<br><br>
+                              <b>Tech used:</b><br>
+                                <img src="assets/laravel.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/python.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconmysql.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconboostrap.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                      <div class="card" style="border-color: #1a1a1a;">
+                        <img class="card-img-top" src="assets/meetify.png" alt="Image">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-7 text-start">
+                              <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                                <img src="assets/python.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;"> ...
+                            </div>
+                            <div class="col-5 text-end p-1">
+                              <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#NewDua">
+                                Details
+                              </button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <!-- Modal 2 -->
+                      <div class="modal fade" id="NewDua" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Meetify</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start m-3">
+                              <h4>Meetify <span class="badge rounded-pill text-bg-danger">Fullstack</span></h4><br>
+                              Meetify is a platform for getting match schedules for online or offline meetings between participants.<br><br>
+                              <b>Tech used:</b><br>
+                                <img src="assets/laravel.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconmysql.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconboostrap.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                      <div class="card" style="border-color: #1a1a1a;">
+                        <img class="card-img-top" src="assets/summarizer.png" alt="Image">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-7 text-start">
+                              <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                                <img src="assets/python.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;"> ...
+                            </div>
+                            <div class="col-5 text-end p-1">
+                              <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#NewTiga">
+                                Details
+                              </button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <!-- Modal 3 -->
+                      <div class="modal fade" id="NewTiga" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Summarizer</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start m-3">
+                              <h4>Summarizer <span class="badge rounded-pill text-bg-danger">Fullstack</span></h4><br>
+                              Summarizer is a model for summarizing long text into points that can be retrieved easily. This was created with machine learning.<br><br>
+                              <b>Tech used:</b><br>
+                                <img src="assets/python.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                      <div class="card" style="border-color: #1a1a1a;">
+                        <img class="card-img-top" src="assets/ml.png" alt="Image">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-7 text-start">
+                              <span class="badge rounded-pill text-bg-success">Model-ML</span>
+                                <img src="assets/python.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                            <div class="col-5 text-end p-1">
+                              <button type="button" class="btn btn-sm btn-dark" data-bs-toggle="modal" data-bs-target="#NewEmpat">
+                                Details
+                              </button>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <!-- Modal 4 -->
+                      <div class="modal fade" id="NewEmpat" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel">Car Recommendations</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-start m-3">
+                              <h4>Car Recommendations <span class="badge rounded-pill text-bg-success">Machine Learning</span></h4><br>
+                              Car Recommendations is a machine learning model that has the ability to recommend cars to potential buyers.<br><br>
+                              <b>Tech used:</b><br>
+                                <img src="assets/python.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="custom-hr"><span>New Projects</span></div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-down">
+                        <img src="assets/img_1.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-warning text-white">Front-End</span>
+                            <div class="details" data-details="A Portfolio website. Description">
+                                <p class="fw-bold">A Portfolio website.</p>
+                                <p class="fw-light">This a first website i made, this wwebsite a landing page which contains a portfolio</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-down">
+                        <img src="assets/img_2.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                            <div class="details" data-details="Details for Website Hotel Reservations">
+                              <p class="fw-bold">Website hotel reservations.</p>
+                              <p class="fw-light">First application i made, this app use to make a hotel reservation on hotel</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconmysql.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-down">
+                        <img src="assets/img_3.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                            <div class="details" data-details="Website for Song Lyrics. Fullstack project with HTML, CSS, JS, Bootstrap, PHP, and MySQL.">
+                                <p class="fw-bold">Website Song Lyrics.</p>
+                                <p class="fw-light">This website contains lyrics from songs and this is an application that can input new lyrics</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconboostrap.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconmysql.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-down">
+                        <img src="assets/img_4.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-warning text-white">Front-End</span>
+                            <div class="details" data-details="A Portfolio website (2). Front-End project with HTML, CSS, and JS.">
+                                <p class="fw-bold">A Portfolio website (2).</p>
+                                <p class="fw-light">This is a landing page website that I created to display my portfolio</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-up">
+                        <img src="assets/img_5.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                            <div class="details" data-details="G-Drive Clone Website. Fullstack project with HTML, CSS, JS, PHP, and MySQL.">
+                                <p class="fw-bold">Google Drive Clone.</p>
+                                <p class="fw-light">This is an application for cloud storage like Google Drive, with fewer features</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconmysql.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-up">
+                        <img src="assets/img_6.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                            <div class="details" data-details="Phrase Social Media. Fullstack project with HTML, CSS, JS, Bootstrap, PHP, and MySQL.">
+                                <p class="fw-bold">Phrase Social Media.</p>
+                                <p class="fw-light">This is a website-based social media application, namely "Phrase" like X. with fewer features</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconboostrap.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconmysql.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-up">
+                        <img src="assets/img_7.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-warning text-white">Front-End</span>
+                            <div class="details" data-details="A Portfolio Website (3). Front-End project with HTML, CSS, JS, and Bootstrap.">
+                                <p class="fw-bold">A Portfolio Website (3).</p>
+                                <p class="fw-light">This is a landing page website that I created to display my portfolio</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconboostrap.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-6 mb-3">
+                    <div class="card text-start projects-card" data-aos="fade-up">
+                        <img src="assets/img_8.png" class="card-img-top" alt="...">
+                        <div class="card-body" onclick="toggleDetails(this)">
+                            <span class="badge rounded-pill text-bg-danger">Fullstack</span>
+                            <div class="details" data-details="Tools Productivity. Fullstack project with HTML, CSS, JS, PHP, and MySQL.">
+                                <p class="fw-bold">Tools Productivity.</p>
+                                <p class="fw-light">This is a productivity app that helps increase productivity such as to-do lists etc</p>
+                                <img src="assets/iconhtml.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconcss.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconjs.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconphp.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                                <img src="assets/iconmysql.png" class="card-img-top" alt="..." style="max-width: 20px;">
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <hr style="width: 20px; border-width: 3px; margin: 30px auto; font-weight: bolder;">
+                <div class="mb-2">
+                    <a href="https://github.com/muhfadtz" style="color: inherit; text-decoration: none;"><i class="fa-brands fa-github"></i></a>&nbsp;&nbsp;
+                    <a href="https://www.linkedin.com/in/fadhlan-tanjung-a94b7929a/" style="color: inherit; text-decoration: none;"><i class="fa-brands fa-linkedin-in"></i></a>&nbsp;&nbsp;
+                    <a href="https://wa.me/62895412089062?text=Hi Narwhal. Im Interest to work with you" style="color: inherit; text-decoration: none;"><i class="fa-brands fa-whatsapp"></i></a>&nbsp;&nbsp;
+                    <a href="https://www.instagram.com/narwha1_/" style="color: inherit; text-decoration: none;"><i class="fa-brands fa-instagram"></i></a>
+                </div>
+                <p style="font-size: small;">&copy;2024 Narwhal.</p>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      function hideSidebar() {
+        document.getElementById("sidebar").style.right = "-220px";
+        document.getElementById("overlay").style.display = "none";
+      }
+
+      function toggleDarkMode() {
+        const body = document.body;
+        body.classList.toggle("dark-mode");
+
+        const logo = document.querySelector(".navbar-brand img");
+        const darkModeIcon = document.getElementById("dark-mode-icon");
+        const userIcon = document.getElementById("user");
+        const hamburgerIcon = document.getElementById("hamburger");
+
+        if (body.classList.contains("dark-mode")) {
+          logo.src = "assets/revam-dark.png";
+          darkModeIcon.classList.remove("fa-moon");
+          darkModeIcon.classList.add("fa-sun");
+          userIcon.innerHTML = '<a href="#" style="text-decoration: none;"><i class="fa-regular fa-user fs-3" style="color: #fff;"></i></a>';
+          hamburgerIcon.innerHTML = '<i class="fa-solid fa-bars-staggered" style="color: #fff;"></i>';
+        } else {
+          logo.src = "assets/revam.png";
+          darkModeIcon.classList.remove("fa-sun");
+          darkModeIcon.classList.add("fa-moon");
+          userIcon.innerHTML = '<a href="#" style="text-decoration: none;"><i class="fa-regular fa-user fs-3" style="color: #1a1a1a;"></i></a>';
+          hamburgerIcon.innerHTML = '<i class="fa-solid fa-bars-staggered" style="color: #000;"></i>';
+        }
+      }
+
+      document.getElementById("hamburger").addEventListener("click", function () {
+        document.getElementById("sidebar").style.right = "0";
+        document.getElementById("overlay").style.display = "block";
+      });
+
+      document.getElementById("user").addEventListener("click", function () {
+        // Add user icon click functionality here
+      });
+
+      document.addEventListener("click", function (event) {
+        if (!event.target.closest(".navbar") && !event.target.closest(".sidebar")) {
+          document.getElementById("sidebar").style.right = "-220px";
+          document.getElementById("overlay").style.display = "none";
+        }
+      });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+            const textElement = document.getElementById('typewriter-text');
+            const texts = ["Backend Developer.", "Web Developer.", "Software Engineer."]; // Ganti dengan teks yang diinginkan
+            let textIndex = 0;
+            let charIndex = 0;
+
+            function type() {
+                if (charIndex < texts[textIndex].length) {
+                    textElement.textContent += texts[textIndex].charAt(charIndex);
+                    charIndex++;
+                    setTimeout(type, 100); // Ubah angka ini untuk mengatur kecepatan pengetikan
+                } else {
+                    setTimeout(erase, 1500); // Menunggu sebelum menghapus teks
+                }
+            }
+
+            function erase() {
+                if (charIndex > 0) {
+                    textElement.textContent = texts[textIndex].substring(0, charIndex - 1);
+                    charIndex--;
+                    setTimeout(erase, 50); // Ubah angka ini untuk mengatur kecepatan penghapusan
+                } else {
+                    textIndex = (textIndex + 1) % texts.length;
+                    setTimeout(type, 500); // Menunggu sebelum mulai mengetik lagi
+                }
+            }
+
+            type(); // Mulai animasi pengetikan
+        });
+    </script>
+    <script>
+      function toggleDetails(card) {
+          const details = card.querySelector('.details');
+          details.style.display = details.style.display === 'none' ? 'block' : 'none';
+      }
+    </script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+        // Get all needed elements from the DOM
+        const contactForm = document.querySelector("#contact-form");
+        const submitBtn = document.querySelector(".submit-btn");
+        const nameInput = document.querySelector("#user_name");
+        const emailInput = document.querySelector("#user_email");
+        const messageInput = document.querySelector("#message");
+    
+        // Get needed data from email JS
+        const publicKey = "J76UjtCrpeMuc05yb";
+        const serviceID = "service_96oldud";
+        const templateID = "template_2vnh5ve";
+    
+        emailjs.init(publicKey);
+    
+        // Add submit event to the form
+        contactForm.addEventListener("submit", e => {
+            // Prevent form default behaviour
+            e.preventDefault();
+            // Change button text
+            submitBtn.innerText = "Just A Moment...";
+    
+            // Get all input field values
+            const inputFields = {
+                name: nameInput.value,
+                email: emailInput.value,
+                message: messageInput.value
+            };
+    
+            /* Send the email
+                (Add service, template ID, and input field values) */
+            emailjs.send(serviceID, templateID, inputFields)
+                .then(() => {
+                    // Change button text
+                    submitBtn.innerText = "Message Sent Successfully";
+                    // Clear out all input fields
+                    nameInput.value = "";
+                    emailInput.value = "";
+                    messageInput.value = "";
+                })
+                .catch((error) => {
+                    // Console Log the error
+                    console.log(error);
+                    // Change button text
+                    submitBtn.innerText = "Something went wrong";
+                });
+        });
+    </script>
+    <script>
+      // Mengambil elemen carousel
+      const carousel = document.getElementById('carousel');
+
+      // Menggandakan elemen-elemen di dalam carousel untuk membuat efek infinity loop
+      carousel.innerHTML += carousel.innerHTML;
+
+      // Mengatur animasi pergeseran dengan JavaScript
+      let position = 0;
+
+      function animateCarousel() {
+          position -= 1;
+          carousel.style.transform = `translateX(${position}px)`;
+
+          // Reset posisi jika mencapai akhir daftar ikon
+          if (position <= -carousel.clientWidth / 2) {
+              position = 0;
+          }
+
+          requestAnimationFrame(animateCarousel);
+      }
+
+      // Memulai animasi
+      animateCarousel();
+    </script>
+    <script>
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+          anchor.addEventListener('click', function (e) {
+              e.preventDefault();
+
+              document.querySelector(this.getAttribute('href')).scrollIntoView({
+                  behavior: 'smooth'
+              });
+          });
+      });
+    </script>
+  </body>
+</html>
